@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Simple Queuing Service</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="theme/css/print.css">
+    <link rel="stylesheet" media="screen, projection" href="theme/css/screen.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="theme/js/slides.js"></script>
+    
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-1">
+          <div class="inner">
+            
+            <header><h1>Simple Queuing Service</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-2">
+          <div class="inner">
+            
+            <header><h1>What is a queue?</h1></header>
+            
+            
+            <section><p>"A queue is a particular type of abstract data type or collection in which the entities  in the collection are kept in order and the principal (or only) operations on the collection are the addition of entities to the rear terminal position, known as enqueue, and removal of entities from the front terminal position, known as dequeue."</p>
+<p><a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">Wikipedia</a></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-3">
+          <div class="inner">
+            
+            <header><h1>First In First Out (FIFO)</h1></header>
+            
+            
+            <section><p><img alt="FIFO diagram" src="Data_Queue.svg.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_notes slide-4">
+          <div class="inner">
+            
+            <header><h1>Amazon Simple Queuing Service</h1></header>
+            
+            
+            <section><p><img alt="SQS Logo" src="sqs.png" /></p>
+<p class="notes">SQS is a fast, reliable, scalable, fully managed message queuing service</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-5">
+          <div class="inner">
+            
+            <header><h1>HOWEVER</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-6">
+          <div class="inner">
+            
+            
+            <section><p>To quote Amazon:</p>
+<p>"Amazon SQS makes a best effort to preserve order in messages, but due to the distributed nature of the queue, we cannot guarantee that you will receive messages in the exact order you sent them. You typically place sequencing information or timestamps in your messages so that you can reorder them upon receipt."</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-7">
+          <div class="inner">
+            
+            <header><h1>How it works</h1></header>
+            
+            
+            <section><p>We have three systems:</p>
+<ul>
+<li>Sender - sends the message to the queue in SQS</li>
+<li>Receiver - reads the messages from the queue in SQS</li>
+<li>SQS which sits in the middle</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-8">
+          <div class="inner">
+            
+            <header><h1>Sender sends message</h1></header>
+            
+            
+            <section><ul>
+<li>Message is a payload up to 256KB of text</li>
+<li>Can be sent, received or deleted in batches of up to 10 messages (or 256KB)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-9">
+          <div class="inner">
+            
+            <header><h1>Message sits on queue until...</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-10">
+          <div class="inner">
+            
+            <header><h1>Receiver sends a ReceiveMessageRequest</h1></header>
+            
+            
+            <section><p>At this point:</p>
+<ul>
+<li>The message(s) are locked in SQS</li>
+<li>No one else can read this message until the lock "times out" (referred to as Visibility Timeout)</li>
+<li>Receiver system then processes message</li>
+<li>If the receiver has not deleted the message within the timeout period, it becomes visible again and it can be picked off the queue</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-11">
+          <div class="inner">
+            
+            <header><h1>Deleteing the message</h1></header>
+            
+            
+            <section><ul>
+<li>Each message has a receipt handle</li>
+<li>We use this to delete the message from the queue</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-12">
+          <div class="inner">
+            
+            <header><h1>DEMO TIME</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: talk.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-13">
+          <div class="inner">
+            
+            <header><h1>QUESTIONS?</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="talk.md">talk.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">Simple Queuing Service</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-2">
+        <th><a href="#slide2">What is a queue?</a></th>
+        <td><a href="#slide2">2</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-3">
+        <th><a href="#slide3">First In First Out (FIFO)</a></th>
+        <td><a href="#slide3">3</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-4">
+        <th><a href="#slide4">Amazon Simple Queuing Service</a></th>
+        <td><a href="#slide4">4</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-5">
+        <th><a href="#slide5">HOWEVER</a></th>
+        <td><a href="#slide5">5</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-6">
+        <th><a href="#slide6">-</a></th>
+        <td><a href="#slide6">6</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-7">
+        <th><a href="#slide7">How it works</a></th>
+        <td><a href="#slide7">7</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-8">
+        <th><a href="#slide8">Sender sends message</a></th>
+        <td><a href="#slide8">8</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-9">
+        <th><a href="#slide9">Message sits on queue until...</a></th>
+        <td><a href="#slide9">9</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-10">
+        <th><a href="#slide10">Receiver sends a ReceiveMessageRequest</a></th>
+        <td><a href="#slide10">10</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-11">
+        <th><a href="#slide11">Deleteing the message</a></th>
+        <td><a href="#slide11">11</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-12">
+        <th><a href="#slide12">DEMO TIME</a></th>
+        <td><a href="#slide12">12</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-13">
+        <th><a href="#slide13">QUESTIONS?</a></th>
+        <td><a href="#slide13">13</a></td>
+      </tr>
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>
